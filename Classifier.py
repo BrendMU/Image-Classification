@@ -1,4 +1,5 @@
 from imageai.Classification import ImageClassification
+from PathException import PathException
 import os
 
 class Classifier:
@@ -24,9 +25,21 @@ class Classifier:
         return Classifier.instance
             
     def classify_image(self, path):
-        predictions, probabilities = self.prediction.classifyImage(path, result_count=15)
         
-        for predict, percentage in zip(predictions, probabilities):
-            print(f"{path}: {predict} {percentage}")
+        file_name = path[path.rfind("/") + 1:]
         
+        try:
+            predictions, probabilities = self.prediction.classifyImage(path, result_count=15)
+            
+            for predict, percentage in zip(predictions, probabilities):
+                print(f"{file_name}: {predict} {percentage}")
+            
+        except ValueError:
+            raise PathException(path)
+   
+    def classify_folder(self, path):
         
+        if not os.path.isdir(path):
+            raise PathException(path)
+        
+    

@@ -1,5 +1,6 @@
 import Constants
 from Classifier import Classifier
+from PathException import PathException
 
 class Manager:
     
@@ -25,11 +26,14 @@ class Manager:
         user_input = "" 
         
         while user_input != Constants.EXIT_CODE:
-            user_input = input("1. Classify Image\n2. Exit\n")
-            
-            if user_input == "1":
-                Classifier.get_instance().classify_image(input("Enter Path:\n"))
-            
-            
+            user_input = input("1. Classify Image\n2. Classify Folder\n3. Exit\n")
+        
+            try:
+                if user_input == Constants.CLASSIFY_IMAGE:
+                    Classifier.get_instance().classify_image(input("Enter Path:\n"))
+                elif user_input == Constants.CLASSIFY_FOLDER:
+                    Classifier.get_instance().classify_folder(input("Enter path\n"))
+            except PathException as e:
+                print(e)
             
             
