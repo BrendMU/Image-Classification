@@ -29,10 +29,10 @@ class Classifier:
         file_name = path[path.rfind("/") + 1:]
         
         try:
-            predictions, probabilities = self.prediction.classifyImage(path, result_count=15)
+            predictions, probabilities = self.prediction.classifyImage(path, result_count=3)
             
             for predict, percentage in zip(predictions, probabilities):
-                print(f"{file_name}: {predict} {percentage}")
+                print(f"{file_name}: {predict}")
             
         except ValueError:
             raise PathException(path)
@@ -42,4 +42,12 @@ class Classifier:
         if not os.path.isdir(path):
             raise PathException(path)
         
-    
+        files = (os.path.join(path, file) for file in os.listdir(path) if os.path.isfile(os.path.join(path, file)))
+        folders = (folder[0] for folder in os.walk(path))
+         
+        for file in files:
+            Classifier.get_instance().classify_image(file) 
+        
+        next(folders)
+        for folder in folders:
+            self.classify_folder(folder)

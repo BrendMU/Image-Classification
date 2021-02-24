@@ -32,7 +32,7 @@ class Manager:
                 if user_input == Constants.CLASSIFY_IMAGE:
                     Classifier.get_instance().classify_image(input("Enter Path:\n"))
                 elif user_input == Constants.CLASSIFY_FOLDER:
-                    Classifier.get_instance().classify_folder(input("Enter path\n"))
+                    Classifier.get_instance().classify_folder(input("Enter Path:\n"))
             except PathException as e:
                 print(e)
             
